@@ -14,6 +14,13 @@ export const getUsersList = async (req, res) => {
 
     res.json(rows)
 }
+export const getUser = async (req, res) => {
+    const connection = await connect()
+
+    const [rows] = await connection.query('SELECT * FROM users WHERE userName = ?', [req.params.id])
+
+    res.json(rows)
+}
 // export const getTask = async(req, res) => {
 //     // res.send(req.params.id)
 

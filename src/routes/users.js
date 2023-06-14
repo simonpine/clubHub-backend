@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { saveUser, deleteTask, getTask, getUsers, getTasksCount, updateTasks, getUsersList } from '../controllers/users'
+import { saveUser, deleteTask, getTask, getUsers, getTasksCount, updateTasks, getUsersList, getUser } from '../controllers/users'
 
 const router = Router()
 
@@ -18,6 +18,13 @@ router.get('/users', getUsers)
  *      summary: Get all usersNames
  */
 router.get('/users/list', getUsersList)
+/**
+ * @swagger
+ * /tasks:
+ *  get:
+ *      summary: Get all usersNames
+ */
+router.get('/user/:id', getUser)
 // /**
 //  * @swagger
 //  * /tasks/count:

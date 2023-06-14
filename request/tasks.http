@@ -1,7 +1,10 @@
-GET http://localhost:3000/users
+GET http://localhost:2000/users
 
 ###
-GET http://localhost:3000/users/list
+GET http://localhost:2000/users/list
+
+###
+GET http://localhost:2000/user/Simonpine
 
 
 ###
@@ -10,7 +13,7 @@ GET http://localhost:3000/users/list
 ###
 # GET http://localhost:3000/tasks/count
 ###
-POST http://localhost:3000/users
+POST http://localhost:2000/users
 Content-Type: application/json
 
 {
