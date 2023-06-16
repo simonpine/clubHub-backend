@@ -1,6 +1,8 @@
 import { Router } from "express";
+import multer from "multer";
+import path from "path";
 
-import { saveUser, deleteUser, getTask, getUsers, getTasksCount, updateUser, getUsersList, getUser, getUserName } from '../controllers/users'
+import { saveUser, deleteUser, getTask, getUsers, getTasksCount, updateUser, getUsersList, getUser, getUserName, uploadPhoto } from '../controllers/users'
 
 const router = Router()
 
@@ -68,5 +70,22 @@ router.delete('/users/:id', deleteUser)
  */
 router.put('/user/:id', updateUser)
 
+
+
+// const upload = multer()
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+
+const upload = multer({
+    storage: storage
+})
+
+router.post('/user/photo/upload', upload.single('image'), uploadPhoto)
 
 export default router

@@ -1,5 +1,9 @@
 import { connect } from "../database"
 
+const fs = require("fs");
+
+
+
 export const getUsers = async (req, res) => {
     const connection = await connect()
 
@@ -59,7 +63,9 @@ export const deleteUser = async (req, res) => {
 
     result.affectedRows > 0 ? res.json('Se elimino la tarea ' + req.params.id) : res.json('No se afecto nada')
 }
+
 export const updateUser = async (req, res) => {
+
     const connection = await connect()
 
     const [result] = await connection.query('UPDATE users SET ? WHERE userName = ?', [
@@ -70,3 +76,53 @@ export const updateUser = async (req, res) => {
     result.affectedRows > 0 ? res.json('Se actualizo la tarea ' + req.params.id) : res.json('No se afecto nada')
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export const uploadPhoto = async (req, res) => {
+
+//     const {file, body: {name}} = req
+//     const re = file.originalname.split('.')
+//     const fileName = name + '.' + re[re.length - 1]
+
+//     await pipeline(
+//         file.stream,
+//         fs.createWriteStream(`${__dirname}/../public/images/${fileName}`)
+//         )
+
+//     // console.log()
+//     // res.send("Yeap")
+//     // console.log(req.body.name)
+
+
+// }
+
+
+export const uploadPhoto = async (req, res) => {
+
+    req.body.old !== 'null' & req.body.old !== req.file.filename && fs.unlinkSync('public/images/' + req.body.old);
+    // console.log(req.body)
+    const connection = await connect()
+    const [result] = await connection.query('UPDATE users SET userImg = ? WHERE userName = ?', [
+        req.file.filename
+        , req.body.name])
+}
+
+
