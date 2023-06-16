@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
     clubs JSON NOT NULL,
     pasword VARCHAR(45) NOT NULL,
     userImg VARCHAR(255) DEFAULT NULL,
+    question VARCHAR(45) NOT NULL,
+    answer VARCHAR(45) NOT NULL,
     PRIMARY KEY (userName)
 );
 

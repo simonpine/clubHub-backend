@@ -4,7 +4,10 @@ GET http://localhost:2000/users
 GET http://localhost:2000/users/list
 
 ###
-GET http://localhost:2000/user/Simonpine
+GET http://localhost:2000/userName/Simonpine2
+
+###
+GET http://localhost:2000/user/Simonpine2
 
 
 ###
@@ -24,14 +27,19 @@ Content-Type: application/json
     "answer": "FreeFire"
 }
 ###
-# DELETE http://localhost:3000/task/5
+DELETE http://localhost:2000/users/SimonPine
 
 
 ###
-# PUT http://localhost:3000/task/20
-# Content-Type: application/json
+PUT http://localhost:2000/user/SimonPine
+Content-Type: application/json
 
-# {
-#     "title": "Updated task",
-#     "description": "Five task description"
-# }
+
+  {
+    "userName": "SimonPine2",
+    "clubs": "[]",
+    "pasword": "88a6e9827dc732524299c9dca51bbd39",
+    "userImg": null,
+    "question": "Name fo your firts mas",
+    "answer": "316e43b7f5c616eb112d8ed6c80ff403"
+  }

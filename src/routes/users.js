@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { saveUser, deleteTask, getTask, getUsers, getTasksCount, updateTasks, getUsersList, getUser } from '../controllers/users'
+import { saveUser, deleteUser, getTask, getUsers, getTasksCount, updateUser, getUsersList, getUser, getUserName } from '../controllers/users'
 
 const router = Router()
 
@@ -25,6 +25,13 @@ router.get('/users/list', getUsersList)
  *      summary: Get all usersNames
  */
 router.get('/user/:id', getUser)
+/**
+ * @swagger
+ * /tasks:
+ *  get:
+ *      summary: Get all usersNames
+ */
+router.get('/userName/:id', getUserName)
 // /**
 //  * @swagger
 //  * /tasks/count:
@@ -43,23 +50,23 @@ router.get('/user/:id', getUser)
  * @swagger
  * /tasks:
  *  post:
- *      summary: Save a new task
+ *      summary: Create a new user
  */
 router.post('/users', saveUser)
-// /**
-//  * @swagger
-//  * /task/:id:
-//  *  delete:
-//  *      summary: Delete a task by id
-//  */
-// router.delete('/task/:id', deleteTask)
-// /**
-//  * @swagger
-//  * /task/:id:
-//  *  put:
-//  *      summary: Update a task by id
-//  */
-// router.put('/task/:id', updateTasks)
+/**
+ * @swagger
+ * /task/:id:
+ *  delete:
+ *      summary: Delete a user by name
+ */
+router.delete('/users/:id', deleteUser)
+/**
+ * @swagger
+ * /task/:id:
+ *  put:
+ *      summary: Update a task by id
+ */
+router.put('/user/:id', updateUser)
 
 
 export default router
