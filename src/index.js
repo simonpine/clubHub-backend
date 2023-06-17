@@ -1,3 +1,4 @@
 import app from "./app";
-app.listen(2000)
-console.log('Server on port 2000')
+import { PORT } from "./config";
+app.listen(PORT)
+console.log('Server on port ' + PORT)
