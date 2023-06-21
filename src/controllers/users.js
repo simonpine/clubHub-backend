@@ -99,7 +99,7 @@ export const updateUser = async (req, res) => {
 
 export const uploadPhoto = async (req, res) => {
 
-    req.body.old !== 'null' & req.body.old !== req.file.filename && fs.unlinkSync('public/images/' + req.body.old);
+    // req.body.old !== 'null' & req.body.old !== req.file.filename && fs.unlinkSync('public/images/' + req.body.old);
     // console.log(req.body)
     const connection = await connect()
     const [result] = await connection.query('UPDATE users SET userImg = ? WHERE userName = ?', [
