@@ -101,10 +101,12 @@ export const uploadPhoto = async (req, res) => {
 
     // req.body.old !== 'null' & req.body.old !== req.file.filename && fs.unlinkSync('public/images/' + req.body.old);
     // console.log(req.body)
+
     const connection = await connect()
     const [result] = await connection.query('UPDATE users SET userImg = ? WHERE userName = ?', [
         req.file.filename
         , req.body.name])
+    res.json({ 'message': 'File uploaded successfully' });
 }
 
 
@@ -129,7 +131,7 @@ export const createClub = async (req, res) => {
         ])
         , req.body.clubOwner])
 
-    res.json({ ...req.body, id: result.insertId })
+    res.json({ 'message': 'File uploaded successfully' });
 }
 
 
