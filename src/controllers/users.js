@@ -135,3 +135,10 @@ export const createClub = async (req, res) => {
 }
 
 
+export const getClubs = async (req, res) => {
+    const connection = await connect()
+
+    const [rows] = await connection.query('SELECT * FROM clubs')
+
+    res.json(rows)
+}

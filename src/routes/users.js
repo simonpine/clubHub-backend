@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 import path from "path";
 
-import { saveUser, deleteUser, getTask, getUsers, getTasksCount, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub } from '../controllers/users'
+import { saveUser, deleteUser, getTask, getUsers, getTasksCount, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs } from '../controllers/users'
 
 const router = Router()
 
@@ -109,10 +109,18 @@ const upload2 = multer({
 
 /**
  * @swagger
- * /user/:id:
+ * /clubs/upload:
  *  post:
- *      summary: Add a user img
+ *      summary: Create new club
  */
 router.post('/clubs/upload', upload2.single('image'), createClub)
 
 export default router
+
+/**
+ * @swagger
+ * /clubs:
+ *  get:
+ *      summary: Get all clubes
+ */
+router.get('/clubs', getClubs)
