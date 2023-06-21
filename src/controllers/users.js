@@ -78,24 +78,6 @@ export const updateUser = async (req, res) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // export const uploadPhoto = async (req, res) => {
 
 //     const {file, body: {name}} = req
@@ -123,6 +105,31 @@ export const uploadPhoto = async (req, res) => {
     const [result] = await connection.query('UPDATE users SET userImg = ? WHERE userName = ?', [
         req.file.filename
         , req.body.name])
+}
+
+
+
+export const createClub = async (req, res) => {
+
+    const connection = await connect()
+
+    const [result] = await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description]
+    )
+
+    const a = await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
+        JSON.stringify([...req.body.currtentClubs,
+        {
+            clubId: req.body.id,
+            clubDescription: req.body.description,
+            own: true,
+            clubTitle: req.body.title,
+            clubBanner: req.file.filename,
+        }
+        ])
+        , req.body.clubOwner])
+
+    res.json({ ...req.body, id: result.insertId })
 }
 
 
