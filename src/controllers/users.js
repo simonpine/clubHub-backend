@@ -120,16 +120,7 @@ export const createClub = async (req, res) => {
     )
 
     const a = await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
-        JSON.stringify([...req.body.currtentClubs,
-        {
-            clubId: req.body.id,
-            clubDescription: req.body.description,
-            own: true,
-            clubTitle: req.body.title,
-            clubBanner: req.file.filename,
-        }
-        ])
-        , req.body.clubOwner])
+        req.body.clubsOfOwner, req.body.clubOwner])
 
     res.json({ 'message': 'File uploaded successfully' });
 }

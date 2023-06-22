@@ -27,7 +27,7 @@ Content-Type: application/json
     "answer": "FreeFire"
 }
 ###
-DELETE http://localhost:2000/users/SimonPine
+DELETE http://localhost:2000/users/simonp
 
 
 ###
@@ -43,3 +43,7 @@ Content-Type: application/json
     "question": "Name fo your firts mas",
     "answer": "316e43b7f5c616eb112d8ed6c80ff403"
   }
+
+
+###
+DELETE http://localhost:2000/clubs/5qf1xzu8ch7
