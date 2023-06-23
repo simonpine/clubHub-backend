@@ -133,3 +133,25 @@ export const getClubs = async (req, res) => {
 
     res.json(rows)
 }
+
+export const getClub = async (req, res) => {
+    const connection = await connect()
+
+    const [rows] = await connection.query('SELECT * FROM clubs WHERE id = ?', [req.params.id])
+
+    res.json(rows)
+}
+
+export const joinClub = async (req, res) => {
+
+    const connection = await connect()
+
+    await connection.query('UPDATE clubs SET members = ? WHERE id = ?', [
+        JSON.stringify(req.body.newMembers), (req.body.clubId)])
+
+    await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
+        JSON.stringify(req.body.clubsOfMember), req.body.newMember])
+
+    res.json({ 'message': 'File uploaded successfully' });
+    // console.log(req.body)
+}
