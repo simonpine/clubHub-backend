@@ -66,11 +66,48 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
 
+
+
     const connection = await connect()
 
     const [result] = await connection.query('UPDATE users SET ? WHERE userName = ?', [
         req.body
         , req.params.id])
+
+
+    async function changeClubs(it) {
+        if (it.own) {
+            await connection.query('UPDATE clubs SET clubOwner = ? WHERE id = ?', [
+                req.body.userName
+                , it.clubId])
+        }
+
+        else {
+
+            const membersOfClub = await connection.query('SELECT * FROM clubs WHERE id = ?', [it.clubId])
+            const newMemberArray = await membersOfClub[0][0].members.map(a => {
+                
+                console.log(a)
+
+                if (a === req.params.id) {
+                    return req.body.userName
+                }
+                return a
+            })
+
+            await connection.query('UPDATE clubs SET members = ? WHERE id = ?', [
+                JSON.stringify(newMemberArray)
+                , it.clubId])
+        }
+    }
+    if (req.body.userName !== req.params.id) {
+        const arr = await JSON.parse(req.body.clubs)
+        if (arr.length > 0) {
+            await arr.map(item => {
+                changeClubs(item)
+            })
+        }
+    }
 
 
     result.affectedRows > 0 ? res.json('Se actualizo la tarea ' + req.params.id) : res.json('No se afecto nada')
