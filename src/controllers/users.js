@@ -1,4 +1,5 @@
 import { connect } from "../database"
+const fs = require('fs')
 
 export const getUsers = async (req, res) => {
     const connection = await connect()
@@ -213,6 +214,51 @@ export const deleteClub = async (req, res) => {
 
     await connection.query('DELETE FROM clubs WHERE id = ?', [req.params.id])
 
+    try{
+        fs.unlinkSync('public/images/banners/' + req.params.id + '.jpeg')
+    }  catch (err) {
+        try {fs.unlinkSync('public/images/banners/' + req.params.id + '.png')}
+        catch(err){
+            return err;
+        }
+    }
+
+    res.json({ 'message': 'User clubs change successfully' });
+    // console.log(req.body)
+}
+
+export const updateClub = async (req, res) => {
+
+    const connection = await connect()
+
+
+    async function changeUsers(it) {
+
+        const user = await connection.query('SELECT * FROM users WHERE userName = ?', [it])
+
+        const newClubsArray = await user[0][0].clubs.filter(item => item.clubId !== req.params.id)
+
+        await newClubsArray.push(JSON.parse(req.body.clubResume))
+
+        await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
+            JSON.stringify(newClubsArray)
+            , it])
+    }
+
+    const arr = await JSON.parse(req.body.members)
+
+    if (arr.length > 0) {
+        await arr.map(item => {
+            changeUsers(item)
+        })
+    }
+
+    await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
+        (req.body.ownerClubs), req.body.ownerName])
+
+
+    await connection.query('UPDATE clubs SET ? WHERE id = ?', [
+        JSON.parse(req.body.changedClub), req.params.id])
 
     res.json({ 'message': 'User clubs change successfully' });
     // console.log(req.body)

@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 // import path from "path";
 
-import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub } from '../controllers/users'
+import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub } from '../controllers/users'
 
 const router = Router()
 
@@ -137,7 +137,7 @@ router.get('/club/:id', getClub)
  * @swagger
  * /user/:id:
  *  put:
- *      summary: Update a user by id
+ *      summary: Add a memebr to a club
  */
 router.put('/clubs/join', joinClub)
 
@@ -145,7 +145,7 @@ router.put('/clubs/join', joinClub)
  * @swagger
  * /userExitClub:
  *  put:
- *      summary: Update a user by id
+ *      summary: delete a memeber from a club
  */
 router.put('/userExitClub', exitClub)
 
@@ -153,6 +153,14 @@ router.put('/userExitClub', exitClub)
  * @swagger
  * /clubs/:id:
  *  delete:
- *      summary: Update a user by id
+ *      summary: delete a club and the info of it
  */
 router.delete('/clubs/:id', deleteClub)
+
+/**
+ * @swagger
+ * /club/:id:
+ *  put:
+ *      summary: Update the club info
+ */
+router.put('/club/:id', upload2.single('image'), updateClub)
