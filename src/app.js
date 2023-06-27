@@ -27,7 +27,7 @@ export const server = http.createServer(app)
 
 const io = new SocketServer(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: 'https://clubhub-backend.up.railway.app',
     }
 })
 
