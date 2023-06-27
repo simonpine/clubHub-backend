@@ -140,6 +140,24 @@ export const joinClub = async (req, res) => {
 
     const connection = await connect()
 
+    const a = await connection.query('SELECT gardes FROM clubs WHERE id = ?', [req.body.clubId])
+
+
+
+    const newGradeStudent = await {
+        studentName: req.body.newMember,
+        gardes: [],
+        total: 1,
+    }
+    for (let x = 0; a[0][0].gardes.grades.length > x; x++) {
+        await newGradeStudent.gardes.push(1)
+    }
+
+    a[0][0].gardes.students.push(newGradeStudent)
+    // console.log(a[0][0].gardes)
+    await connection.query('UPDATE clubs SET gardes = ? WHERE id = ?', [
+        JSON.stringify(a[0][0].gardes), (req.body.clubId)])
+
     await connection.query('UPDATE clubs SET members = ? WHERE id = ?', [
         JSON.stringify(req.body.newMembers), (req.body.clubId)])
 
@@ -155,10 +173,17 @@ export const exitClub = async (req, res) => {
     const connection = await connect()
     const [club] = await connection.query('SELECT * FROM clubs WHERE id = ?', [req.body.clubId])
 
+    // const newArrGrades = await club[0].gardes.students.filter(item => item.studentName !== req.body.userName)
+
+    club[0].gardes.students = await club[0].gardes.students.filter(item => item.studentName !== req.body.userName)
+
     const newArrMembers = await club[0].members.filter(item => item !== req.body.userName)
 
     await connection.query('UPDATE clubs SET members = ? WHERE id = ?', [
         JSON.stringify(newArrMembers), (req.body.clubId)])
+
+    await connection.query('UPDATE clubs SET gardes = ? WHERE id = ?', [
+        JSON.stringify(club[0].gardes), (req.body.clubId)])
 
 
 
@@ -214,11 +239,11 @@ export const deleteClub = async (req, res) => {
 
     await connection.query('DELETE FROM clubs WHERE id = ?', [req.params.id])
 
-    try{
+    try {
         fs.unlinkSync('public/images/banners/' + req.params.id + '.jpeg')
-    }  catch (err) {
-        try {fs.unlinkSync('public/images/banners/' + req.params.id + '.png')}
-        catch(err){
+    } catch (err) {
+        try { fs.unlinkSync('public/images/banners/' + req.params.id + '.png') }
+        catch (err) {
             return err;
         }
     }
@@ -262,4 +287,15 @@ export const updateClub = async (req, res) => {
 
     res.json({ 'message': 'User clubs change successfully' });
     // console.log(req.body)
+}
+
+export const saveGrades = async (req, res) => {
+
+
+    const connection = await connect()
+    await connection.query('UPDATE clubs SET gardes = ? WHERE id = ?', [
+        JSON.stringify(req.body.grades)
+        , req.body.clubId])
+
+    res.json({ 'message': 'File uploaded successfully' });
 }

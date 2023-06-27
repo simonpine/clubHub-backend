@@ -1,7 +1,7 @@
 import express from "express";
 import cors from 'cors'
 import morgan from "morgan";
-import { Server as SocketServer } from 'socket.io'
+// import { Server as SocketServer } from 'socket.io'
 import http from 'http'
 
 import swaggerJSDoc from "swagger-jsdoc";
@@ -24,17 +24,6 @@ app.use(usersRoutes)
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs))
 
 export const server = http.createServer(app)
-
-const io = new SocketServer(server, {
-    cors: {
-        origin: 'https://simonpine.com/',
-    }
-})
-
-
-io.on('connection', (socket) => {
-    console.log('user connected ' + socket.id)
-})
 
 
 export default app
