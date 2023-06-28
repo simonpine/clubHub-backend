@@ -67,6 +67,7 @@ export const updateUser = async (req, res) => {
         else {
 
             const membersOfClub = await connection.query('SELECT * FROM clubs WHERE id = ?', [it.clubId])
+
             const newMemberArray = await membersOfClub[0][0].members.map(a => {
                 if (a === req.params.id) {
                     return req.body.userName
@@ -74,9 +75,28 @@ export const updateUser = async (req, res) => {
                 return a
             })
 
-            await connection.query('UPDATE clubs SET members = ? WHERE id = ?', [
-                JSON.stringify(newMemberArray)
+            const newGradesArray = await membersOfClub[0][0].gardes.students.map(a => {
+                if (a.studentName === req.params.id) {
+                    return {
+                        total: a.total,
+                        gardes: a.gardes,
+                        studentName: req.body.userName,
+                    }
+                }
+                return a
+            })
+            const newObjGrades = await {
+                students: newGradesArray,
+                grades: membersOfClub[0][0].gardes.grades
+            }
+
+            // console.log(newGradesArray)
+            await connection.query('UPDATE clubs SET members = ?, gardes = ? WHERE id = ?', [
+                JSON.stringify(newMemberArray),
+                JSON.stringify(newObjGrades)
                 , it.clubId])
+
+
         }
     }
     if (req.body.userName !== req.params.id) {
