@@ -129,8 +129,8 @@ export const createClub = async (req, res) => {
 
     const connection = await connect()
 
-    await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description]
+    await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description, chat, events) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description, req.body.chat, req.body.events]
     )
 
     await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
