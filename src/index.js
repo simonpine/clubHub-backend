@@ -8,7 +8,7 @@ const httpServer = server.listen(PORT)
 
 const io = new SocketServer(httpServer, {
     cors: {
-        origin: 'https://simonpine.com/',
+        origin: 'https://simonpine.com',
     }
 })
 
