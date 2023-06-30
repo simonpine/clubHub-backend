@@ -311,11 +311,26 @@ export const updateClub = async (req, res) => {
 
 export const saveGrades = async (req, res) => {
 
-
     const connection = await connect()
     await connection.query('UPDATE clubs SET gardes = ? WHERE id = ?', [
         JSON.stringify(req.body.grades)
         , req.body.clubId])
 
     res.json({ 'message': 'File uploaded successfully' });
+}
+
+export const newEvent = async(req, res) => {
+    const connection = await connect()
+
+    const current = await connection.query('SELECT events FROM clubs WHERE id = ?', [req.body.idClub])
+
+
+    current[0][0].events.unshift(req.body)
+
+    await connection.query('UPDATE clubs SET events = ? WHERE id = ?', [
+        JSON.stringify(current[0][0].events)
+        , req.body.idClub])
+        
+    res.json({ 'message': 'File uploaded successfully' });
+
 }

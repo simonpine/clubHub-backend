@@ -14,24 +14,13 @@ const io = new SocketServer(httpServer, {
 
 
 io.on('connection', (socket) => {
-    // socket.removeAllListeners()
-
-    console.log('===================conn')
-
     socket.on('joinClub', evt => {
+        console.log('user connected to: ' + evt)
         socket.join(evt)
     })
     socket.on('newEventMessage', mess => {
-
-        io.to(mess).emit('emitMessage', mess)
+        io.to(mess.idClub).emit('emitMessageEvent', mess)
     })
-    // socket.join('asdasd')
-
-    // console.log(socket.rooms)
-    // socket.on("disconnect", () => {
-    //     console.log(socket.connected); // false
-    // })
-
 })
 
 io.on('disconnection', (socket) => {

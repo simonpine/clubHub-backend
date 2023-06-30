@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 // import path from "path";
 
-import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades } from '../controllers/users'
+import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent } from '../controllers/users'
 
 const router = Router()
 
@@ -173,3 +173,27 @@ router.put('/club/:id', upload2.single('image'), updateClub)
  */
 // router.put('/club/setgardes', saveGrades)
 router.post('/club/grades', saveGrades)
+
+
+const storage3 = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/images/chats')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+
+const upload3 = multer({
+    storage: storage3
+})
+
+
+/**
+ * @swagger
+ * /club/events:
+ *  put:
+ *      summary: Upload a new message to events section in clubs
+ */
+// router.put('/club/setgardes', saveGrades)
+router.post('/club/events', upload3.single('file'), newEvent)
