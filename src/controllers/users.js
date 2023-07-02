@@ -174,7 +174,6 @@ export const joinClub = async (req, res) => {
     }
 
     a[0][0].gardes.students.push(newGradeStudent)
-    // console.log(a[0][0].gardes)
     await connection.query('UPDATE clubs SET gardes = ? WHERE id = ?', [
         JSON.stringify(a[0][0].gardes), (req.body.clubId)])
 
@@ -242,7 +241,6 @@ export const deleteClub = async (req, res) => {
 
     const [club] = await connection.query('SELECT * FROM clubs WHERE id = ?', [req.body.clubId])
 
-    // const arr = await JSON.parse(req.body.members)
     if (club[0].members.length > 0) {
         await club[0].members.map(item => {
             changeUsers(item)
@@ -306,7 +304,6 @@ export const updateClub = async (req, res) => {
         JSON.parse(req.body.changedClub), req.params.id])
 
     res.json({ 'message': 'User clubs change successfully' });
-    // console.log(req.body)
 }
 
 export const saveGrades = async (req, res) => {
@@ -329,6 +326,23 @@ export const newEvent = async(req, res) => {
 
     await connection.query('UPDATE clubs SET events = ? WHERE id = ?', [
         JSON.stringify(current[0][0].events)
+        , req.body.idClub])
+        
+    res.json({ 'message': 'File uploaded successfully' });
+
+}
+
+export const newChat = async(req, res) => {
+    const connection = await connect()
+
+    const current = await connection.query('SELECT chat FROM clubs WHERE id = ?', [req.body.idClub])
+
+
+    current[0][0].chat.unshift(req.body)
+    
+
+    await connection.query('UPDATE clubs SET chat = ? WHERE id = ?', [
+        JSON.stringify(current[0][0].chat)
         , req.body.idClub])
         
     res.json({ 'message': 'File uploaded successfully' });

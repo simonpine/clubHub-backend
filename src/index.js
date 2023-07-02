@@ -2,7 +2,6 @@
 import { PORT } from "./config";
 import { server } from './app'
 import { Server as SocketServer } from 'socket.io'
-import { connect } from "./database"
 
 const httpServer = server.listen(PORT)
 
@@ -20,6 +19,9 @@ io.on('connection', (socket) => {
     })
     socket.on('newEventMessage', mess => {
         io.to(mess.idClub).emit('emitMessageEvent', mess)
+    })
+    socket.on('newChatMessage', mess => {
+        io.to(mess.idClub).emit('emitMessageChat', mess)
     })
 })
 

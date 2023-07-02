@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 // import path from "path";
 
-import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent } from '../controllers/users'
+import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat } from '../controllers/users'
 
 const router = Router()
 
@@ -197,3 +197,12 @@ const upload3 = multer({
  */
 // router.put('/club/setgardes', saveGrades)
 router.post('/club/events', upload3.single('file'), newEvent)
+
+/**
+ * @swagger
+ * /club/chat:
+ *  put:
+ *      summary: Upload a new message to greup chat section in clubs
+ */
+// router.put('/club/setgardes', saveGrades)
+router.post('/club/chat', upload3.single('file'), newChat)
