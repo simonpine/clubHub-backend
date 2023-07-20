@@ -129,8 +129,8 @@ export const createClub = async (req, res) => {
 
     const connection = await connect()
 
-    await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description, chat, events) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description, req.body.chat, req.body.events]
+    await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description, chat, events, calendarEvents) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description, req.body.chat, req.body.events, req.body.calendarEvents]
     )
 
     await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
@@ -316,7 +316,7 @@ export const saveGrades = async (req, res) => {
     res.json({ 'message': 'File uploaded successfully' });
 }
 
-export const newEvent = async(req, res) => {
+export const newEvent = async (req, res) => {
     const connection = await connect()
 
     const current = await connection.query('SELECT events FROM clubs WHERE id = ?', [req.body.idClub])
@@ -327,24 +327,36 @@ export const newEvent = async(req, res) => {
     await connection.query('UPDATE clubs SET events = ? WHERE id = ?', [
         JSON.stringify(current[0][0].events)
         , req.body.idClub])
-        
+
     res.json({ 'message': 'File uploaded successfully' });
 
 }
 
-export const newChat = async(req, res) => {
+export const newChat = async (req, res) => {
     const connection = await connect()
 
     const current = await connection.query('SELECT chat FROM clubs WHERE id = ?', [req.body.idClub])
 
 
     current[0][0].chat.unshift(req.body)
-    
+
 
     await connection.query('UPDATE clubs SET chat = ? WHERE id = ?', [
         JSON.stringify(current[0][0].chat)
         , req.body.idClub])
-        
+
+    res.json({ 'message': 'File uploaded successfully' });
+
+}
+
+export const newCalendarEvt = async (req, res) => {
+    const connection = await connect()
+
+    await connection.query('UPDATE clubs SET calendarEvents = ? WHERE id = ?', [
+        JSON.stringify(req.body.calendarEvts)
+        , req.body.clubId])
+
+    // console.log(req.body)
     res.json({ 'message': 'File uploaded successfully' });
 
 }

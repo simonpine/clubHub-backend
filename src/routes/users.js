@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 // import path from "path";
 
-import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat } from '../controllers/users'
+import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt } from '../controllers/users'
 
 const router = Router()
 
@@ -206,3 +206,11 @@ router.post('/club/events', upload3.single('file'), newEvent)
  */
 // router.put('/club/setgardes', saveGrades)
 router.post('/club/chat', upload3.single('file'), newChat)
+
+/**
+ * @swagger
+ * /club/calendar:
+ *  put:
+ *      summary: Upload a new event to calendar section in clubs
+ */
+router.post('/club/calendar', newCalendarEvt)
