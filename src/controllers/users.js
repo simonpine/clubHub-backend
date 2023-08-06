@@ -129,14 +129,14 @@ export const createClub = async (req, res) => {
 
     const connection = await connect()
 
-    await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description, chat, events, calendarEvents) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description, req.body.chat, req.body.events, req.body.calendarEvents]
+    await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description, chat, events, calendarEvents, clubLeader, surveys) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description, req.body.chat, req.body.events, req.body.calendarEvents, req.body.clubLeader, req.body.surveys]
     )
 
     await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
         req.body.clubsOfOwner, req.body.clubOwner])
 
-    res.json({ 'message': 'File uploaded successfully' });
+    await res.json({ 'message': 'File uploaded successfully' });
 }
 
 
@@ -145,7 +145,7 @@ export const getClubs = async (req, res) => {
 
     const [rows] = await connection.query('SELECT * FROM clubs')
 
-    res.json(rows)
+    await res.json(rows)
 }
 
 export const getClub = async (req, res) => {
@@ -153,7 +153,7 @@ export const getClub = async (req, res) => {
 
     const [rows] = await connection.query('SELECT * FROM clubs WHERE id = ?', [req.params.id])
 
-    res.json(rows)
+    await res.json(rows)
 }
 
 export const joinClub = async (req, res) => {
@@ -183,7 +183,7 @@ export const joinClub = async (req, res) => {
     await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
         JSON.stringify(req.body.clubsOfMember), req.body.newMember])
 
-    res.json({ 'message': 'File uploaded successfully' });
+    await res.json({ 'message': 'File uploaded successfully' });
 
 }
 
@@ -215,7 +215,7 @@ export const exitClub = async (req, res) => {
     await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
         JSON.stringify(req.body.clubsOfMember), req.body.newMember])
 
-    res.json({ 'message': 'User clubs change successfully' });
+    await res.json({ 'message': 'User clubs change successfully' });
 
 }
 
@@ -266,7 +266,7 @@ export const deleteClub = async (req, res) => {
         }
     }
 
-    res.json({ 'message': 'User clubs change successfully' });
+    await res.json({ 'message': 'User clubs change successfully' });
     // console.log(req.body)
 }
 
@@ -303,7 +303,7 @@ export const updateClub = async (req, res) => {
     await connection.query('UPDATE clubs SET ? WHERE id = ?', [
         JSON.parse(req.body.changedClub), req.params.id])
 
-    res.json({ 'message': 'User clubs change successfully' });
+    await res.json({ 'message': 'User clubs change successfully' });
 }
 
 export const saveGrades = async (req, res) => {
@@ -313,7 +313,7 @@ export const saveGrades = async (req, res) => {
         JSON.stringify(req.body.grades)
         , req.body.clubId])
 
-    res.json({ 'message': 'File uploaded successfully' });
+    await res.json({ 'message': 'File uploaded successfully' });
 }
 
 export const newEvent = async (req, res) => {
@@ -345,7 +345,7 @@ export const newChat = async (req, res) => {
         JSON.stringify(current[0][0].chat)
         , req.body.idClub])
 
-    res.json({ 'message': 'File uploaded successfully' });
+    await res.json({ 'message': 'File uploaded successfully' });
 
 }
 
@@ -357,6 +357,76 @@ export const newCalendarEvt = async (req, res) => {
         , req.body.clubId])
 
     // console.log(req.body)
-    res.json({ 'message': 'File uploaded successfully' });
+    await res.json({ 'message': 'File uploaded successfully' });
+
+}
+
+export const newPoll = async (req, res) => {
+    const connection = await connect()
+
+    await connection.query('UPDATE clubs SET surveys = ? WHERE id = ?', [
+        (req.body.polls)
+        , req.body.clubId])
+
+    await res.json({ 'message': 'File uploaded successfully' });
+
+}
+
+export const addRes = async (req, res) => {
+    const connection = await connect()
+
+    const response = await connection.query('SELECT surveys FROM clubs WHERE id = ?', [req.body.clubId])
+
+    let survey = response[0][0].surveys
+
+    survey = await survey.map(item => {
+        if (item.id === req.body.pollId) {
+
+            return {
+                id: item.id,
+                title: item.title,
+                banner: item.banner,
+                questionary: item.questionary,
+                answers: req.body.newAnswers
+            }
+        }
+        else {
+            return { ...item };
+        }
+    })
+
+    await connection.query('UPDATE clubs SET surveys = ? WHERE id = ?', [
+        JSON.stringify(survey)
+        , req.body.clubId])
+
+    await res.json({ 'message': 'File uploaded successfully' });
+
+}
+
+export const deleteSurvey = async (req, res) => {
+    const connection = await connect()
+
+    const response = await connection.query('SELECT surveys FROM clubs WHERE id = ?', [req.body.clubId])
+
+    try {
+        fs.unlinkSync('public/images/surveys/' + `${req.body.clubId}-survey-${req.body.pollId}` + '.jpeg')
+    } catch (err) {
+        try { fs.unlinkSync('public/images/surveys/' + `${req.body.clubId}-survey-${req.body.pollId}` + '.png') }
+        catch (err) {
+            return err;
+        }
+    }
+
+    let survey = response[0][0].surveys
+
+    survey = await survey.filter(item => item.id !== req.body.pollId)
+
+    await connection.query('UPDATE clubs SET surveys = ? WHERE id = ?', [
+        JSON.stringify(survey)
+        , req.body.clubId])   
+
+    console.log(survey);
+
+    await res.json({ 'message': 'File uploaded successfully' });
 
 }

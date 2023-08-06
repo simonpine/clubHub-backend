@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 // import path from "path";
 
-import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt } from '../controllers/users'
+import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt, newPoll, addRes, deleteSurvey } from '../controllers/users'
 
 const router = Router()
 
@@ -214,3 +214,41 @@ router.post('/club/chat', upload3.single('file'), newChat)
  *      summary: Upload a new event to calendar section in clubs
  */
 router.post('/club/calendar', newCalendarEvt)
+
+const storage4 = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/images/surveys')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+
+const upload4 = multer({
+    storage: storage4
+})
+
+/**
+ * @swagger
+ * /club/addSurvey:
+ *  put:
+ *      summary: Upload a new survey to a club
+ */
+router.post('/club/addSurvey', upload4.single('image'), newPoll);
+
+/**
+ * @swagger
+ * /club/addRes:
+ *  put:
+ *      summary: Upload a new survey to a club
+ */
+
+router.post('/club/addRes', addRes);
+
+/**
+ * @swagger
+ * /club/deleteSurvey:
+ *  delete:
+ *      summary: delete a survey of a club
+ */
+router.delete('/club/deleteSurvey', deleteSurvey);
