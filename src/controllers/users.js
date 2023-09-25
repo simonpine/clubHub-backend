@@ -368,6 +368,8 @@ export const newPoll = async (req, res) => {
         (req.body.polls)
         , req.body.clubId])
 
+
+    // console.log(req.body)
     await res.json({ 'message': 'File uploaded successfully' });
 
 }
@@ -387,14 +389,14 @@ export const addRes = async (req, res) => {
                 title: item.title,
                 banner: item.banner,
                 questionary: item.questionary,
-                answers: req.body.newAnswers
+                answers: req.body.newAnswers,
+                whoAnswered: [...item.whoAnswered, req.body.userAns]
             }
         }
         else {
             return { ...item };
         }
     })
-
     await connection.query('UPDATE clubs SET surveys = ? WHERE id = ?', [
         JSON.stringify(survey)
         , req.body.clubId])
