@@ -432,3 +432,16 @@ export const deleteSurvey = async (req, res) => {
     await res.json({ 'message': 'File uploaded successfully' });
 
 }
+
+export const sortMemebers = async (req, res) => {
+    const connection = await connect()
+
+console.log(req.body.clubId)
+
+    await connection.query('UPDATE clubs SET members = ? WHERE id = ?', [
+        JSON.stringify(req.body.newMembers)
+        , req.body.clubId]) 
+
+    await res.json({ 'message': 'Info uploaded successfully' });
+
+}

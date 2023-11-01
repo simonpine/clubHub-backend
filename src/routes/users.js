@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 // import path from "path";
 
-import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt, newPoll, addRes, deleteSurvey } from '../controllers/users'
+import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt, newPoll, addRes, deleteSurvey, sortMemebers } from '../controllers/users'
 
 const router = Router()
 
@@ -252,3 +252,11 @@ router.post('/club/addRes', addRes);
  *      summary: delete a survey of a club
  */
 router.delete('/club/deleteSurvey', deleteSurvey);
+
+/**
+ * @swagger
+ * /club/sortMembers:
+ *  post:
+ *      summary: resort the members of the leaderboard
+ */
+router.post('/club/sortMembers', sortMemebers);
