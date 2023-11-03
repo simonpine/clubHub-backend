@@ -129,12 +129,13 @@ export const createClub = async (req, res) => {
 
     const connection = await connect()
 
-    await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description, chat, events, calendarEvents, clubLeader, surveys) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description, req.body.chat, req.body.events, req.body.calendarEvents, req.body.clubLeader, req.body.surveys]
+    await connection.query('INSERT INTO clubs (id, title, gardes, clubBanner, members, clubOwner, description, chat, events, calendarEvents, clubLeader, surveys, existChat, existGrades) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [req.body.id, req.body.title, req.body.grades, req.file.filename, req.body.members, req.body.clubOwner, req.body.description, req.body.chat, req.body.events, req.body.calendarEvents, req.body.clubLeader, req.body.surveys, JSON.parse(req.body.existChat), JSON.parse(req.body.existGrades)]
     )
 
     await connection.query('UPDATE users SET clubs = ? WHERE userName = ?', [
         req.body.clubsOfOwner, req.body.clubOwner])
+
 
     await res.json({ 'message': 'File uploaded successfully' });
 }
@@ -425,7 +426,7 @@ export const deleteSurvey = async (req, res) => {
 
     await connection.query('UPDATE clubs SET surveys = ? WHERE id = ?', [
         JSON.stringify(survey)
-        , req.body.clubId])   
+        , req.body.clubId])
 
     console.log(survey);
 
@@ -436,11 +437,27 @@ export const deleteSurvey = async (req, res) => {
 export const sortMemebers = async (req, res) => {
     const connection = await connect()
 
-console.log(req.body.clubId)
-
     await connection.query('UPDATE clubs SET members = ? WHERE id = ?', [
         JSON.stringify(req.body.newMembers)
-        , req.body.clubId]) 
+        , req.body.clubId])
+
+    await res.json({ 'message': 'Info uploaded successfully' });
+
+}
+
+export const changeExists = async (req, res) => {
+    const connection = await connect()
+
+    if(req.body.which === 'chat'){
+        await connection.query('UPDATE clubs SET existChat = ? WHERE id = ?', [
+            req.body.newData
+            , req.body.clubId])
+    }
+    else{
+        await connection.query('UPDATE clubs SET existGrades = ? WHERE id = ?', [
+            req.body.newData
+            , req.body.clubId])
+    }
 
     await res.json({ 'message': 'Info uploaded successfully' });
 

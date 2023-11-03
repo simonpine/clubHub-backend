@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 // import path from "path";
 
-import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt, newPoll, addRes, deleteSurvey, sortMemebers } from '../controllers/users'
+import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt, newPoll, addRes, deleteSurvey, sortMemebers, changeExists } from '../controllers/users'
 
 const router = Router()
 
@@ -260,3 +260,11 @@ router.delete('/club/deleteSurvey', deleteSurvey);
  *      summary: resort the members of the leaderboard
  */
 router.post('/club/sortMembers', sortMemebers);
+
+/**
+ * @swagger
+ * /club/changeExists:
+ *  post:
+ *      summary: change the list of the club functions
+ */
+router.post('/club/changeExists', changeExists);
