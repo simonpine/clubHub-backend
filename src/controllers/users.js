@@ -453,6 +453,11 @@ export const changeExists = async (req, res) => {
             req.body.newData
             , req.body.clubId])
     }
+    else if (req.body.which === 'private'){
+        await connection.query('UPDATE clubs SET clubLeader = ? WHERE id = ?', [
+            req.body.newData
+            , req.body.clubId])
+    }
     else{
         await connection.query('UPDATE clubs SET existGrades = ? WHERE id = ?', [
             req.body.newData
