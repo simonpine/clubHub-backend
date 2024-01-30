@@ -14,7 +14,11 @@ import usersRoutes from './routes/users'
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin:'*', 
+    credentials:true,           
+    optionSuccessStatus:200,
+}))
 app.use(express.static('public'))
 app.use(morgan('dev'))
 app.use(express.json())
