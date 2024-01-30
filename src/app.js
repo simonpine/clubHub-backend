@@ -17,7 +17,8 @@ const app = express()
 app.use(cors({
     origin:'https://www.club-hub.website', 
     credentials:true,           
-    optionSuccessStatus:200,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
 }))
 app.use(express.static('public'))
 app.use(morgan('dev'))
