@@ -15,7 +15,7 @@ import usersRoutes from './routes/users'
 const app = express()
 
 app.use(cors({
-    origin:'*', 
+    origin:'https://www.club-hub.website', 
     credentials:true,           
     optionSuccessStatus:200,
 }))
