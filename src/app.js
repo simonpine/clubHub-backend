@@ -14,12 +14,7 @@ import usersRoutes from './routes/users'
 
 const app = express()
 
-app.use(cors({
-    origin:'https://www.club-hub.website', 
-    credentials:true,           
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
-}))
+app.use(cors())
 app.use(express.static('public'))
 app.use(morgan('dev'))
 app.use(express.json())
