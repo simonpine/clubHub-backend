@@ -13,6 +13,7 @@ export const getUsers = async (req, res) => {
     question TEXT NOT NULL,
     answer VARCHAR(45) NOT NULL,
     description TEXT NOT NULL,
+    friends JSON NOT NULL,
     PRIMARY KEY (userName)
 );
 `)

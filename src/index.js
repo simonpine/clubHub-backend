@@ -7,7 +7,7 @@ const httpServer = server.listen(PORT)
 
 const io = new SocketServer(httpServer, {
     cors: {
-        origin: 'https://www.club-hub.website',
+        origin: 'https://www.uhub.website',
         // origin: 'http://localhost:3000',
     }
 })
