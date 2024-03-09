@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 // import path from "path";
 
-import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt, newPoll, addRes, deleteSurvey, sortMemebers, changeExists } from '../controllers/users'
+import { saveUser, deleteUser, getClub, getUsers, joinClub, updateUser, getUsersList, getUser, getUserName, uploadPhoto, createClub, getClubs, exitClub, deleteClub, updateClub, saveGrades, newEvent, newChat, newCalendarEvt, newPoll, addRes, deleteSurvey, sortMemebers, changeExists, editFriends } from '../controllers/users'
 
 const router = Router()
 
@@ -48,6 +48,8 @@ router.get('/userName/:id', getUserName)
 //  *      summary: Get a task by id
 //  */
 // router.get('/task/:id', getTask)
+router.post('/usersFriends', editFriends)
+
 /**
  * @swagger
  * /tasks:

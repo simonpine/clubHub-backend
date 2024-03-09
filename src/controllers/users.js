@@ -219,7 +219,7 @@ export const joinClub = async (req, res) => {
 
 }
 
-export const EditFriends = async (req, res) => {
+export const editFriends = async (req, res) => {
     await connection.query('UPDATE users SET friends = ? WHERE userName = ?', [
         JSON.stringify(req.body.newList), (req.body.userName)])
     await res.json({ 'message': 'File uploaded successfully' });
