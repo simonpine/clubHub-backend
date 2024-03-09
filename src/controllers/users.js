@@ -64,7 +64,7 @@ export const getUserName = async (req, res) => {
 export const saveUser = async (req, res) => {
     const connection = await connect()
     const [result] = await connection.query('INSERT INTO users (userName, clubs, pasword, question, answer, description, friends) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [req.body.userName, JSON.stringify(req.body.clubs), req.body.pasword, req.body.question, req.body.answer, req.body.description, JSON.stringify(req.body.friends)]
+        [req.body.userName, JSON.stringify(req.body.clubs), req.body.pasword, req.body.question, req.body.answer, req.body.description, JSON.stringify(req.body.clubs)]
     )
 
     res.json({ ...req.body, id: result.insertId })
