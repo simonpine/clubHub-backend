@@ -1,5 +1,5 @@
 import { connect } from "../database.js"
-const fs = require('fs')
+import fs from 'fs'
 
 export const getUsers = async (req, res) => {
     const connection = await connect()
