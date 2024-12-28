@@ -6,11 +6,11 @@ import http from 'http'
 
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import { options } from "./swaggerOptions";
+import { options } from "./swaggerOptions.js";
 
 const specs = swaggerJSDoc(options)
 
-import usersRoutes from './routes/users'
+import usersRoutes from './routes/users.js'
 
 const app = express()
 

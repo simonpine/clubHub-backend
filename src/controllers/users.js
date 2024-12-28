@@ -1,4 +1,4 @@
-import { connect } from "../database"
+import { connect } from "../database.js"
 const fs = require('fs')
 
 export const getUsers = async (req, res) => {

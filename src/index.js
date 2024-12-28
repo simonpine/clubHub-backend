@@ -1,6 +1,6 @@
 
-import { PORT } from "./config";
-import { server } from './app'
+import { PORT } from "./config.js";
+import { server } from './app.js'
 import { Server as SocketServer } from 'socket.io'
 
 const httpServer = server.listen(PORT)
